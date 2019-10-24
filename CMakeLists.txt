@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.2)
 
 if($ENV{TRAVIS_BUILD_NUMBER})
- project(07_homework VERSION 0.0.$ENV{TRAVIS_BUILD_NUMBER})
+ project(10_homework VERSION 0.0.$ENV{TRAVIS_BUILD_NUMBER})
 else()
- project(07_homework VERSION 0.0.3)
+ project(10_homework VERSION 0.0.3)
 endif()
 
 
