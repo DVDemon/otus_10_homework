@@ -7,6 +7,7 @@
 
 #include "lib.h"
 #include "consumer.h"
+#include "topic.h"
 
 namespace homework{
 
@@ -28,19 +29,18 @@ namespace homework{
             size_t   bulk_size;
             // Текущий блок команд
             Commands next_command;
-            // Ссылки на наблюдателей
-            std::vector<Consumer*> consumers;
+            // Ссылки на topic
+            Topic    &topic;
             // Метод для уведомления наблюдателей
             void notify_bulk();
         public:
-            Producer(size_t size);
-            // Подписать еще одного наблюдателя
-            void add_customer(Consumer*);
+            Producer(size_t size,Topic &t);
+            
             // Обработать еще одну команду
             void produce(std::string str);
             // Принудительно дослать все команды в буффере
             void flush();
-            ~Producer();
+
 
     };
 } 

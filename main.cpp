@@ -2,6 +2,7 @@
 #include "consumer_out.h"
 #include "consumer_file.h"
 #include "producer.h"
+#include "topic.h"
 #include <algorithm>
 #include <string>
 #include <cctype>
@@ -16,18 +17,22 @@ int main(int argc, char *argv[]){
  
     if(argc>1)
     if(isPositiveInteger(std::string(argv[1]))){
-        homework::Producer producer(atoi(argv[1]));
-        homework::ConsumerOut consumer_out(std::cout);
-        homework::ConsumerFile consumer_file;
+        homework::Topic        topic;
+        homework::Producer     producer(atoi(argv[1]),topic);
+        homework::ConsumerOut  consumer_out(topic,std::cout);
+        homework::ConsumerFile consumer_file(topic);
 
-        producer.add_customer(&consumer_file);
-        producer.add_customer(&consumer_out);
 
+        consumer_out.process();
+        consumer_file.process();
 
         std::string cmd;
         while(std::cin >> cmd)
             producer.produce(cmd);
         producer.flush();
+
+        consumer_out.stop();
+        consumer_file.stop();
     }
 
     UNUSED(argc);

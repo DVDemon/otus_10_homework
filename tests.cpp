@@ -1,15 +1,17 @@
 #include "lib.h"
 #include "consumer_out.h"
 #include "producer.h"
+#include "topic.h"
 #include <gtest/gtest.h>
 
 TEST(test_basic, basic_test_set)
 {
     testing::internal::CaptureStdout();
+    
+    homework::Topic        topic;
+    homework::Producer producer(3,topic);
+    homework::ConsumerOut consumer_out(topic,std::cout);
 
-    homework::Producer producer(3);
-    homework::ConsumerOut consumer_out(std::cout);
-    producer.add_customer(&consumer_out);
 
     producer.produce(std::string("cmd1"));
     producer.produce(std::string("cmd2"));
@@ -27,9 +29,10 @@ TEST(test_braces, basic_test_set)
 {
     testing::internal::CaptureStdout();
 
-    homework::Producer producer(3);
-    homework::ConsumerOut consumer_out(std::cout);
-    producer.add_customer(&consumer_out);
+    homework::Topic        topic;
+    homework::Producer producer(3,topic);
+    homework::ConsumerOut consumer_out(topic,std::cout);
+
 
     producer.produce(std::string("cmd1"));
     producer.produce(std::string("cmd2"));
@@ -52,9 +55,10 @@ TEST(test_brace_in_brace, basic_test_set)
 {
     testing::internal::CaptureStdout();
 
-    homework::Producer producer(3);
-    homework::ConsumerOut consumer_out(std::cout);
-    producer.add_customer(&consumer_out);
+    homework::Topic        topic;
+    homework::Producer producer(3,topic);
+    homework::ConsumerOut consumer_out(topic,std::cout);
+
 
     producer.produce(std::string("{"));
     producer.produce(std::string("cmd1"));
@@ -78,9 +82,10 @@ TEST(test_brace_incomplete, basic_test_set)
 {
     testing::internal::CaptureStdout();
 
-    homework::Producer producer(3);
-    homework::ConsumerOut consumer_out(std::cout);
-    producer.add_customer(&consumer_out);
+    homework::Topic        topic;
+    homework::Producer producer(3,topic);
+    homework::ConsumerOut consumer_out(topic,std::cout);
+
 
     producer.produce(std::string("cmd1"));
     producer.produce(std::string("cmd2"));
@@ -101,9 +106,10 @@ TEST(test_brace_incomplete_2, basic_test_set)
 {
     testing::internal::CaptureStdout();
 
-    homework::Producer producer(3);
-    homework::ConsumerOut consumer_out(std::cout);
-    producer.add_customer(&consumer_out);
+    homework::Topic        topic;
+    homework::Producer producer(3,topic);
+    homework::ConsumerOut consumer_out(topic,std::cout);
+
 
     producer.produce(std::string("cmd1"));
     producer.produce(std::string("cmd2"));

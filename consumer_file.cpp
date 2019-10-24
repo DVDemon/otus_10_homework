@@ -2,6 +2,10 @@
 #include <iostream>
 #include <fstream>
 
+homework::ConsumerFile::ConsumerFile(homework::Topic &t): Consumer(t){
+
+}
+
 void homework::ConsumerFile::consume(homework::Commands& cmd){
     std::string name(cmd.get_time());
     name+=".log";

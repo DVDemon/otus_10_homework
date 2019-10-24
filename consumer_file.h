@@ -8,6 +8,7 @@ namespace homework{
      */
     class ConsumerFile : public Consumer{
             public:
+                ConsumerFile(Topic &t);
                 void consume(Commands &) override;   
     };
 }

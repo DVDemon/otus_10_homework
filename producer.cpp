@@ -1,7 +1,7 @@
 #include "producer.h"
 #include "commands.h"
 
-homework::Producer::Producer(size_t size) : bulk_size(size){
+homework::Producer::Producer(size_t size,Topic &t) : bulk_size(size), topic(t){
 }
 
 void homework::Producer::produce(std::string str){
@@ -26,14 +26,11 @@ void homework::Producer::produce(std::string str){
         }
     
 }
-void homework::Producer::add_customer(homework::Consumer* c){
-    consumers.push_back(c);
-}
+
 void homework::Producer::notify_bulk(){
     if(state.braces==0)
     if(!next_command.empty()){
-        for(auto c: consumers) c->consume(next_command);
-        next_command.clear();
+        topic.publish_command(next_command);
         state.count = 0;       
     }
 
@@ -41,8 +38,4 @@ void homework::Producer::notify_bulk(){
 
 void homework::Producer::flush(){
     notify_bulk();
-}
-
-homework::Producer::~Producer(){
-    consumers.clear();
 }

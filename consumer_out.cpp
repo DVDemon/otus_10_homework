@@ -1,6 +1,6 @@
 #include "consumer_out.h"
 
-homework::ConsumerOut::ConsumerOut(std::ostream &stream): output_stream(stream){
+homework::ConsumerOut::ConsumerOut(homework::Topic &t,std::ostream &stream): Consumer(t), output_stream(stream){
 
 }
 
