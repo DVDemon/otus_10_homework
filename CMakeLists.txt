@@ -12,21 +12,20 @@ find_package(GTest REQUIRED)
 find_package(Threads)
 include_directories(${GTEST_INCLUDE_DIRS})
 
-add_executable(bulkmt main.cpp)
-add_executable(gtests tests.cpp)
-add_library(library commands.cpp consumer.cpp topic.cpp consumer_out.cpp consumer_file.cpp producer.cpp)
+add_executable(bulkmt main.cpp commands.cpp consumer.cpp topic.cpp consumer_out.cpp consumer_file.cpp producer.cpp)
+add_executable(gtests tests.cpp commands.cpp consumer.cpp topic.cpp consumer_out.cpp consumer_file.cpp producer.cpp)
 
 
-set_target_properties(bulkmt library gtests PROPERTIES
+
+set_target_properties(bulkmt gtests PROPERTIES
     CXX_STANDARD 17
     CXX_STANDARD_REQUIRED ON
 )
 target_include_directories(bulkmt PRIVATE "${CMAKE_BINARY_DIR}")
-target_link_libraries(bulkmt PRIVATE ${CMAKE_THREAD_LIBS_INIT} library)
-target_link_libraries(gtests ${GTEST_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} library)
+target_link_libraries(bulkmt PRIVATE ${CMAKE_THREAD_LIBS_INIT} )
+target_link_libraries(gtests ${GTEST_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} )
     
 target_compile_options(bulkmt PRIVATE -Wall -Wextra -pedantic -Werror )
-target_compile_options(library PRIVATE -Wall -Wextra -pedantic -Werror )
 target_compile_options(gtests PRIVATE -Wall -Wextra -pedantic -Werror  )
 
 
