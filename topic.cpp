@@ -9,16 +9,11 @@ void homework::Topic::publish_command(homework::Commands& cmds){
     for(auto it=topic.begin(); it!=topic.end();++it){
         it->second.push_back(cmds);
     }
-   // for( auto & queue : topic){
-   //     queue.second.push_back(cmds);
-   // }
 }
 
 void homework::Topic::subscribe_consumer(size_t id){
     std::lock_guard<std::mutex> lock(guard);
-    std::cout << "subscribe:" << id <<std::endl;
     if(topic.find(id)==std::end(topic)){
-        std::cout << "add queue:" << id <<std::endl;
         topic[id] = std::deque<Commands>();
     }
 }
