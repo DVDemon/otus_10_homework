@@ -19,7 +19,7 @@ namespace homework{
             /**
              * Публикация команды в topic
              */
-            void        publish_command(const Commands& cmds);
+            void        publish_command(Commands& cmds);
 
             /**
              * Создание группы подписки
@@ -49,7 +49,7 @@ namespace homework{
             /**
              * хранилище команд
              */
-            std::map<size_t,std::deque<const Commands>> topic;
+            std::map<size_t,std::deque<Commands>> topic;
 
     };
 }
