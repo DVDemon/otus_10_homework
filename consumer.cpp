@@ -30,7 +30,7 @@ void homework::Consumer::process()
         return; // already running
 
     running.store(true);
-    result = std::async(std::launch::async, [&]() {
+    auto procedure = [&]() {
         while (running.load())
         {
             if (!topic.empty(get_id()))
@@ -51,7 +51,8 @@ void homework::Consumer::process()
                 }
             }
         }
-    });
+    };
+    result = std::async(std::launch::async, procedure);
 }
 
 size_t    homework::Consumer::get_counter_block(){
