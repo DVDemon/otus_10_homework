@@ -22,12 +22,13 @@ set_target_properties(bulkmt library gtests PROPERTIES
     CXX_STANDARD_REQUIRED ON
 )
 target_include_directories(bulkmt PRIVATE "${CMAKE_BINARY_DIR}")
-target_link_libraries(bulkmt PRIVATE library)
+target_link_libraries(bulkmt PRIVATE ${CMAKE_THREAD_LIBS_INIT} library)
 target_link_libraries(gtests ${GTEST_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} library)
     
-target_compile_options(bulkmt PRIVATE -Wall -Wextra -pedantic -Werror -lpthread )
-target_compile_options(library PRIVATE -Wall -Wextra -pedantic -Werror -lpthread )
-target_compile_options(gtests PRIVATE -Wall -Wextra -pedantic -Werror -lpthread )
+target_compile_options(bulkmt PRIVATE -Wall -Wextra -pedantic -Werror )
+target_compile_options(library PRIVATE -Wall -Wextra -pedantic -Werror )
+target_compile_options(gtests PRIVATE -Wall -Wextra -pedantic -Werror  )
+
 
 install(TARGETS bulkmt RUNTIME DESTINATION bin)
 
