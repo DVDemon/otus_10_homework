@@ -31,3 +31,7 @@ void homework::Commands::clear(){
 bool homework::Commands::empty(){
     return commands.empty();
 }
+
+size_t homework::Commands::size(){
+    return commands.size();
+}

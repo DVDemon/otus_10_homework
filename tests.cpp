@@ -3,15 +3,16 @@
 #include "producer.h"
 #include "topic.h"
 #include <gtest/gtest.h>
+#include <sstream>
 
 TEST(test_basic, basic_test_set)
-{
+{   
     testing::internal::CaptureStdout();
-    
+
     homework::Topic        topic;
     homework::Producer producer(3,topic);
-    homework::ConsumerOut consumer_out(topic,std::cout);
-
+    homework::ConsumerOut consumer_out(topic,1,std::cout);
+    consumer_out.process();
 
     producer.produce(std::string("cmd1"));
     producer.produce(std::string("cmd2"));
@@ -19,6 +20,7 @@ TEST(test_basic, basic_test_set)
     producer.produce(std::string("cmd4"));
     producer.produce(std::string("cmd5"));
     producer.flush();
+
     std::string output = testing::internal::GetCapturedStdout();
     ASSERT_TRUE(output==std::string(
         "bulk: cmd1, cmd2, cmd3\nbulk: cmd4, cmd5\n"
@@ -31,8 +33,8 @@ TEST(test_braces, basic_test_set)
 
     homework::Topic        topic;
     homework::Producer producer(3,topic);
-    homework::ConsumerOut consumer_out(topic,std::cout);
-
+    homework::ConsumerOut consumer_out(topic,1,std::cout);
+    consumer_out.process();
 
     producer.produce(std::string("cmd1"));
     producer.produce(std::string("cmd2"));
@@ -44,6 +46,7 @@ TEST(test_braces, basic_test_set)
     producer.produce(std::string("cmd7"));
     producer.produce(std::string("}"));
     producer.flush();
+    
     std::string output = testing::internal::GetCapturedStdout();
     ASSERT_TRUE(output==std::string(
         "bulk: cmd1, cmd2, cmd3\nbulk: cmd4, cmd5, cmd6, cmd7\n"
@@ -57,8 +60,8 @@ TEST(test_brace_in_brace, basic_test_set)
 
     homework::Topic        topic;
     homework::Producer producer(3,topic);
-    homework::ConsumerOut consumer_out(topic,std::cout);
-
+    homework::ConsumerOut consumer_out(topic,1,std::cout);
+    consumer_out.process();
 
     producer.produce(std::string("{"));
     producer.produce(std::string("cmd1"));
@@ -71,6 +74,7 @@ TEST(test_brace_in_brace, basic_test_set)
     producer.produce(std::string("cmd6"));
     producer.produce(std::string("}"));
     producer.flush();
+    
     std::string output = testing::internal::GetCapturedStdout();
 
     ASSERT_TRUE(output==std::string(
@@ -80,12 +84,12 @@ TEST(test_brace_in_brace, basic_test_set)
 
 TEST(test_brace_incomplete, basic_test_set)
 {
+    
     testing::internal::CaptureStdout();
-
     homework::Topic        topic;
     homework::Producer producer(3,topic);
-    homework::ConsumerOut consumer_out(topic,std::cout);
-
+    homework::ConsumerOut consumer_out(topic,1,std::cout);
+    consumer_out.process();
 
     producer.produce(std::string("cmd1"));
     producer.produce(std::string("cmd2"));
@@ -96,6 +100,7 @@ TEST(test_brace_incomplete, basic_test_set)
     producer.produce(std::string("cmd6"));
     producer.produce(std::string("cmd7"));
     producer.flush();
+    
     std::string output = testing::internal::GetCapturedStdout();
     ASSERT_TRUE(output==std::string(
         "bulk: cmd1, cmd2, cmd3\n"
@@ -104,12 +109,11 @@ TEST(test_brace_incomplete, basic_test_set)
 
 TEST(test_brace_incomplete_2, basic_test_set)
 {
-    testing::internal::CaptureStdout();
-
+    testing::internal::CaptureStdout();   
     homework::Topic        topic;
     homework::Producer producer(3,topic);
-    homework::ConsumerOut consumer_out(topic,std::cout);
-
+    homework::ConsumerOut consumer_out(topic,1,std::cout);
+    consumer_out.process();
 
     producer.produce(std::string("cmd1"));
     producer.produce(std::string("cmd2"));
@@ -120,6 +124,7 @@ TEST(test_brace_incomplete_2, basic_test_set)
     producer.produce(std::string("cmd6"));
     producer.produce(std::string("cmd7"));
     producer.flush();
+
     std::string output = testing::internal::GetCapturedStdout();
     ASSERT_TRUE(output==std::string(
         "bulk: cmd1, cmd2\n"

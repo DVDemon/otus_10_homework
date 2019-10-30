@@ -33,14 +33,29 @@ namespace homework{
             Topic    &topic;
             // Метод для уведомления наблюдателей
             void notify_bulk();
+
+            // Счетчик количества блоков
+            size_t counter_block;
+            // Счетчик количества команд
+            size_t counter_command;
+            // Счетчик строк
+            size_t counter_line;
         public:
             Producer(size_t size,Topic &t);
             
             // Обработать еще одну команду
             void produce(std::string str);
-            // Принудительно дослать все команды в буффере
+            // Принудительно дослать все команды в буффере и дожидается обработки (страшная вещь)
             void flush();
 
+            // возвращаем счетчик количества обработанных блоков
+            size_t get_counter_block();
+
+            // возвращаем счетчик количества обработанных команд
+            size_t get_counter_command();
+
+            // возвращаем счетчик количества обработанных строк
+            size_t get_counter_line();
 
     };
 } 

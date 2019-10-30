@@ -19,20 +19,23 @@ int main(int argc, char *argv[]){
     if(isPositiveInteger(std::string(argv[1]))){
         homework::Topic        topic;
         homework::Producer     producer(atoi(argv[1]),topic);
-        homework::ConsumerOut  consumer_out(topic,std::cout);
-        homework::ConsumerFile consumer_file(topic);
+        homework::ConsumerOut  consumer_out(topic,1,std::cout);
+        homework::ConsumerFile consumer_file1(topic,2),consumer_file2(topic,2);
 
 
         consumer_out.process();
-        consumer_file.process();
+        consumer_file1.process();
+        consumer_file2.process();
 
         std::string cmd;
         while(std::cin >> cmd)
             producer.produce(cmd);
         producer.flush();
 
-        consumer_out.stop();
-        consumer_file.stop();
+        std::cout << "main поток - " << producer.get_counter_line() << " строк, " << producer.get_counter_block() << " блок, " << producer.get_counter_command() << " комманд" << std::endl;
+        std::cout << "log поток - " << consumer_out.get_counter_block() << " блок, " << consumer_out.get_counter_command() << " комманд" << std::endl;
+        std::cout << "file1 поток - " << consumer_file1.get_counter_block() << " блок, " << consumer_file1.get_counter_command() << " комманд" << std::endl;
+        std::cout << "file2 поток - " << consumer_file2.get_counter_block() << " блок, " << consumer_file2.get_counter_command() << " комманд" << std::endl;
     }
 
     UNUSED(argc);

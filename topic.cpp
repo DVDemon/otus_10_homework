@@ -12,9 +12,17 @@ void homework::Topic::publish_command(const homework::Commands& cmds){
 
 void homework::Topic::subscribe_consumer(size_t id){
     std::lock_guard<std::mutex> lock(guard);
+    std::cout << "subscribe:" << id <<std::endl;
     if(topic.find(id)==std::end(topic)){
+        std::cout << "add queue:" << id <<std::endl;
         topic[id] = std::deque<const Commands>();
     }
+}
+
+bool homework::Topic::empty(){
+    for(auto q:topic)
+     if(!q.second.empty()) return false;
+    return true;
 }
 
 bool homework::Topic::empty(size_t id){
@@ -26,26 +34,17 @@ bool homework::Topic::empty(size_t id){
     throw std::logic_error("Нет такого подписчика");
 }
 
-homework::Commands homework::Topic::top(size_t id){
+bool homework::Topic::top_and_pop(size_t id, homework::Commands& result){
     std::lock_guard<std::mutex> lock(guard);
     if(topic.find(id)!=std::end(topic)){
         std::deque<const Commands>& queue = topic[id];
         if(!queue.empty()){
-            return queue[0];
+            result = queue[0];
+            queue.pop_front();
+            return true;
+        } else {
+            return false;
         }
-        throw std::logic_error("Достигнут конец очереди");
-    } 
-    throw std::logic_error("Нет такого подписчика");
-}
-
-void homework::Topic::pop(size_t id){
-    std::lock_guard<std::mutex> lock(guard);
-    if(topic.find(id)!=std::end(topic)){
-        std::deque<const Commands>& queue = topic[id];
-        if(!queue.empty()){
-            return queue.pop_front();
-        }
-        throw std::logic_error("Достигнут конец очереди");
     } 
     throw std::logic_error("Нет такого подписчика");
 }

@@ -14,7 +14,7 @@ namespace homework{
         private:
             std::ostream &output_stream;
         public:
-            ConsumerOut(Topic &t, std::ostream &stream);
+            ConsumerOut(Topic &t, size_t id, std::ostream &stream);
             void consume(Commands &) override;
     };
 }

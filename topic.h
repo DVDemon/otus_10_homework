@@ -8,15 +8,47 @@
 #include <mutex>
 
 namespace homework{
+    /**
+     * Класс для ведения подписки на команды. Реализует абстракцию topic - т.е. подписки нескольких получателей 
+     * на очередь. Для каждой группы подписки делается отдельная очередь команд. При публикации команды она добавляется
+     * во все группы подписки.
+     */
     class Topic{
         public:
+
+            /**
+             * Публикация команды в topic
+             */
             void        publish_command(const Commands& cmds);
+
+            /**
+             * Создание группы подписки
+             */
             void        subscribe_consumer(size_t id);
-            Commands    top(size_t id);
-            void        pop(size_t id);
+
+            /**
+             * Чтение из очереди по идентификатору группы подписки
+             */
+            bool        top_and_pop(size_t id,Commands & result);
+
+            /**
+             * Проверка на пустоту конкретной группы подписки по идентификатору
+             */
             bool        empty(size_t id);
+
+            /**
+             * Проверка на пустоту всего топика
+             */
+            bool        empty();
         private:
+            /**
+             * mutex для синхронизации для доступа к topic
+             */ 
             std::mutex guard;
+
+            /**
+             * хранилище команд
+             */
             std::map<size_t,std::deque<const Commands>> topic;
 
     };

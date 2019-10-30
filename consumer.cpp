@@ -1,17 +1,18 @@
 #include "consumer.h"
 
-size_t homework::Consumer::global_consumer_id = 0;
 
-homework::Consumer::Consumer(homework::Topic &t) : topic(t)
+homework::Consumer::Consumer(homework::Topic &t,size_t id) : thread_group_id(id),
+                                                             counter_block{0},
+                                                             counter_command{0},
+                                                             topic(t) 
 {
-    consumer_id = ++global_consumer_id;
-    topic.subscribe_consumer(consumer_id);
+    topic.subscribe_consumer(thread_group_id);
     running.store(false);
 }
 
 size_t homework::Consumer::get_id() const
 {
-    return consumer_id;
+    return thread_group_id;
 }
 
 void homework::Consumer::stop()
@@ -36,9 +37,13 @@ void homework::Consumer::process()
             {
                 try
                 {
-                    Commands cmd = topic.top(get_id());
-                    consume(cmd);
-                    topic.pop(get_id());
+
+                    Commands cmd;
+                    if(topic.top_and_pop(get_id(),cmd)){
+                        counter_block ++;
+                        counter_command += cmd.size();
+                        consume(cmd);
+                    }
                 }
                 catch (std::logic_error &err)
                 {
@@ -47,6 +52,14 @@ void homework::Consumer::process()
             }
         }
     });
+}
+
+size_t    homework::Consumer::get_counter_block(){
+    return counter_block;
+}
+
+size_t    homework::Consumer::get_counter_command(){
+    return counter_command;
 }
 
 homework::Consumer::~Consumer()
