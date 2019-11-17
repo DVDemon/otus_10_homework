@@ -18,16 +18,17 @@ void homework::Topic::subscribe_consumer(size_t id){
     }
 }
 
-bool homework::Topic::empty(){
+bool homework::Topic::empty() const {
+    std::lock_guard<std::mutex> lock(guard);
     for(auto q:topic)
      if(!q.second.empty()) return false;
     return true;
 }
 
-bool homework::Topic::empty(size_t id){
+bool homework::Topic::empty(size_t id) const{
     std::lock_guard<std::mutex> lock(guard);
     if(topic.find(id)!=std::end(topic)){
-        std::deque<Commands>& queue = topic[id];
+        const std::deque<Commands>& queue = topic.find(id)->second;
         return queue.empty();
     } 
     throw std::logic_error("Нет такого подписчика");

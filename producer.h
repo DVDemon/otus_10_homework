@@ -26,7 +26,7 @@ namespace homework{
             //Текущее состояние обработки команд
             State    state;
             // Максимальное количество команд в блоке
-            size_t   bulk_size;
+            const size_t   bulk_size;
             // Текущий блок команд
             Commands next_command;
             // Ссылки на topic
@@ -35,11 +35,11 @@ namespace homework{
             void notify_bulk();
 
             // Счетчик количества блоков
-            size_t counter_block;
+            size_t counter_block{0};
             // Счетчик количества команд
-            size_t counter_command;
+            size_t counter_command{0};
             // Счетчик строк
-            size_t counter_line;
+            size_t counter_line{0};
         public:
             Producer(size_t size,Topic &t);
             

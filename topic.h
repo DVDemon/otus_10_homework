@@ -34,17 +34,17 @@ namespace homework{
             /**
              * Проверка на пустоту конкретной группы подписки по идентификатору
              */
-            bool        empty(size_t id);
+            bool        empty(size_t id) const;
 
             /**
              * Проверка на пустоту всего топика
              */
-            bool        empty();
+            bool        empty() const;
         private:
             /**
              * mutex для синхронизации для доступа к topic
              */ 
-            std::mutex guard;
+            mutable std::mutex guard;
 
             /**
              * хранилище команд

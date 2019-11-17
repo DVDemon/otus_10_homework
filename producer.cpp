@@ -1,7 +1,7 @@
 #include "producer.h"
 #include "commands.h"
 
-homework::Producer::Producer(size_t size,Topic &t) : bulk_size(size), topic(t), counter_block{0}, counter_command{0},counter_line{0}{
+homework::Producer::Producer(size_t size,Topic &t) : bulk_size(size), topic(t){
 }
 
 void homework::Producer::produce(std::string str){
